@@ -12,7 +12,7 @@ const mongoose = require("mongoose");
 const ExpressError = require("./middleware/ExpressError.js");
 const dotenv=require("dotenv").config();// load environment variables from .env file
 
-const userRouter = require("./routes/user.js");
+const userRouter = require("./Routes/user.js");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -27,11 +27,17 @@ const sessionOptions = {
   secret: "mysupersecretcode",
   resave: false,
   saveUninitialized: true,
+  // cookie: {
+  //   expires: Date.now() +7 * 24 * 60 * 60 * 1000, // Set to a future date
+  //   maxAge:7 * 24 * 60 * 60 * 1000, // Ensure this is a number
+  //   httpOnly: true,
+  // }
   cookie: {
-    expires: process.env.EXPIRINGDATE,
-    maxAge: process.env.AGE,
+    expires: Date.now() + Number(process.env.AGE), // Set to a future date
+    maxAge: Number(process.env.AGE), // Ensure this is a number
     httpOnly: true,
-  },
+}
+
 };
 
 app.use(session(sessionOptions));

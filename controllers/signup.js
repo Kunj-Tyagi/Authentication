@@ -1,4 +1,5 @@
 const ExpressError = require("../middleware/ExpressError.js");
+const User = require("../models/user.js");
 
 const signupform=(req,res)=>{
     res.render("./user/signup");
@@ -9,7 +10,6 @@ const uploadsignup=async(req,res,next)=>{
         let {username,email,password}=req.body;
         const newUser=new User({email,username});
         const registeredUser=await User.register(newUser,password);
-        console.log(registeredUser);
         next(new ExpressError(404, "You have registered!"));
     }
     catch(e){
