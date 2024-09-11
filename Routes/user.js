@@ -5,7 +5,9 @@ const passport=require("passport");
 const {loginform,verify} =require("../controllers/login.js");
 const {signupform,uploadsignup} =require("../controllers/signup.js");
 const {loggedout} =require("../controllers/logout.js");
+const {home} =require("../controllers/home.js");
 
+router.get("/",home);
 router.get("/signup",signupform);
 router.post("/signup",uploadsignup);
 router.get("/login",loginform);
