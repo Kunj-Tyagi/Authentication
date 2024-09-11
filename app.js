@@ -10,7 +10,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const mongoose = require("mongoose");
 const ExpressError = require("./middleware/ExpressError.js");
-const dotenv=require("dotenv").config();// load environment variables from .env file
+const dotenv = require("dotenv").config(); // load environment variables from .env file
 
 const userRouter = require("./Routes/user.js");
 
@@ -27,17 +27,11 @@ const sessionOptions = {
   secret: "mysupersecretcode",
   resave: false,
   saveUninitialized: true,
-  // cookie: {
-  //   expires: Date.now() +7 * 24 * 60 * 60 * 1000, // Set to a future date
-  //   maxAge:7 * 24 * 60 * 60 * 1000, // Ensure this is a number
-  //   httpOnly: true,
-  // }
   cookie: {
-    expires: Date.now() + Number(process.env.AGE), // Set to a future date
-    maxAge: Number(process.env.AGE), // Ensure this is a number
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true,
-}
-
+  },
 };
 
 app.use(session(sessionOptions));
@@ -51,7 +45,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-  res.locals.errorMessage = req.flash('error');
+  res.locals.errorMessage = req.flash("error");
   next();
 });
 
@@ -72,9 +66,8 @@ app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500; // Use err.statusCode if available, otherwise 500
   const message = err.message || "Something went wrong!"; // Use err.message if available
   // Set the status code and render the error view with the message
-  res.status(statusCode).render("error", { message});
+  res.status(statusCode).render("error", { message });
 });
-
 
 main()
   .then(() => {
